@@ -1,0 +1,479 @@
+/* =================================
+   1. Konfigurasi Awal & Variabel
+   ================================= */
+:root {
+    /* Palet Warna Baru yang Cerah */
+    --primary-color: #00A99D; /* Teal Cerah */
+    --primary-hover: #00897B;
+    --secondary-color: #FF9F43; /* Oranye Hangat */
+    --dark-blue: #1E2A3A; /* Biru Gelap yang Lebih Lembut */
+    --light-gray: #FDFDFD; /* Latar Belakang Hampir Putih */
+    --text-dark: #2d3748;
+    --text-light: #718096;
+    --border-color: #e2e8f0;
+    --font-sans: 'Poppins', sans-serif; /* Font Elegan Baru */
+    --shadow-md: 0 4px 10px -1px rgba(0,0,0,0.05), 0 2px 6px -2px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.07), 0 4px 15px -4px rgba(0,0,0,0.07);
+    --border-radius: 0.75rem; /* Sudut lebih melengkung */
+}
+
+/* =================================
+   2. Reset & Global Styles
+   ================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--light-gray);
+    color: var(--text-dark);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+section {
+    padding: 5rem 0;
+    position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: var(--primary-hover);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.prose {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: #374151;
+}
+.prose h1, .prose h2, .prose h3 { margin-bottom: 1em; margin-top: 1.5em; }
+.prose p { margin-bottom: 1.25em; }
+.prose ul, .prose ol { margin-left: 1.5em; margin-bottom: 1.25em; }
+.prose li { margin-bottom: 0.5em; }
+
+/* =================================
+   3. Navbar
+   ================================= */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 80px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+.nav-logo { display: flex; align-items: center; gap: 0.75rem; }
+.nav-logo img { height: 3.5rem; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.nav-logo:hover img { transform: rotate(-15deg) scale(1.1); }
+.nav-logo-text { font-size: 1.5rem; font-weight: 800; }
+.nav-links { list-style: none; display: flex; align-items: center; gap: 1.5rem; }
+
+.nav-links a {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    position: relative;
+    transition: transform 0.2s ease;
+}
+.nav-links a:hover {
+    transform: translateY(-2px);
+}
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color);
+    transition: width 0.3s ease-in-out;
+}
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-dropdown { position: relative; }
+.dropdown-menu {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    margin-top: 1rem;
+    background-color: #fff;
+    min-width: 240px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0;
+    border: 1px solid var(--border-color);
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+.dropdown-menu.show { display: block; opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-menu a { padding: 0.75rem 1.25rem; display: block; width: 100%; transition: background-color 0.2s ease, padding-left 0.2s ease; }
+.dropdown-menu a:hover { background-color: #f8f9fa; padding-left: 1.5rem; }
+.dropdown-toggle { display: flex; align-items: center; gap: 0.35rem; cursor: pointer; }
+.dropdown-toggle svg { transition: transform 0.3s ease; }
+.dropdown-toggle.active svg { transform: rotate(180deg); }
+
+/* =================================
+   4. Hero Section - VERSI CERAH
+   ================================= */
+.hero-section {
+    height: 95vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-dark);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0)), url('https://source.unsplash.com/random/1920x1080?village,sunny,daylight');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: inherit;
+    animation: zoomEffect 25s infinite alternate ease-in-out;
+}
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(253, 253, 253, 0.15);
+}
+.hero-content {
+    position: relative;
+    z-index: 10;
+}
+.hero-content h1 {
+    font-size: 4.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    animation: slideInDown 1s ease-out forwards;
+    text-shadow: 0 3px 5px rgba(255, 255, 255, 0.8);
+    opacity: 0;
+}
+.hero-content h2 {
+    font-size: 3rem;
+    font-weight: 600;
+    animation: slideInUp 1s ease-out 0.5s forwards;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    opacity: 0;
+}
+
+/* =================================
+   5. General Sections & Cards
+   ================================= */
+.page-header { text-align: center; margin-bottom: 4rem; }
+.page-title { font-size: 2.5rem; margin-bottom: 1rem; }
+.page-subtitle { font-size: 1.25rem; color: var(--text-light); max-width: 700px; margin: 0 auto; }
+.bg-white { background-color: #fff; }
+
+.grid-2-col { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center; }
+@media (min-width: 1024px) { .grid-2-col { grid-template-columns: repeat(2, 1fr); } }
+
+.section-title { font-size: 2.5rem; margin-bottom: 1.5rem; position: relative; padding-bottom: 0.75rem; }
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border-radius: 2px;
+}
+.text-center .section-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.sambutan-img-wrapper { display: flex; justify-content: center; }
+.sambutan-img { width: 300px; height: 300px; border-radius: 50%; object-fit: cover; box-shadow: var(--shadow-lg); border: 10px solid #fff; }
+.sambutan-text p { font-size: 1.125rem; color: var(--text-light); }
+
+.grid-3-col { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 768px) { .grid-3-col { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .grid-3-col { grid-template-columns: repeat(3, 1fr); } }
+
+.berita-card {
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
+}
+.berita-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px rgba(0, 169, 157, 0.2); /* Glow effect */
+    border-color: var(--primary-color);
+}
+.card-img { height: 220px; overflow: hidden; }
+.card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.berita-card:hover .card-img img { transform: scale(1.05); }
+.card-body { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+.card-date { font-size: 0.875rem; color: var(--secondary-color); margin-bottom: 0.5rem; font-weight: 600; }
+.card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+.card-text { color: var(--text-light); flex-grow: 1; margin-bottom: 1rem; }
+.card-link { font-weight: 600; align-self: flex-start; }
+
+/* =================================
+   6. Forms & Buttons
+   ================================= */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+.btn-primary {
+    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    color: #fff;
+    background-size: 200% auto;
+}
+.btn-primary:hover {
+    background-position: right center;
+    box-shadow: 0 5px 15px rgba(255, 159, 67, 0.4);
+    transform: translateY(-3px);
+}
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.contact-form input:focus, .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 169, 157, 0.2);
+}
+
+/* =================================
+   7. GUEST - Halaman Spesifik
+   ================================= */
+.berita-detail-header { margin-bottom: 2.5rem; }
+.berita-detail-title { font-size: 2.5rem; }
+.berita-detail-meta { margin-top: 1rem; color: var(--text-light); }
+.berita-detail-img { border-radius: var(--border-radius); box-shadow: var(--shadow-lg); margin-bottom: 2.5rem; }
+.berita-detail-body { max-width: 800px; margin: 0 auto; }
+.btn-kembali { display: inline-block; background-color: var(--primary-color); color: #fff; padding: 0.75rem 1.5rem; border-radius: 50px; transition: background-color 0.3s ease; }
+.btn-kembali:hover { background-color: var(--primary-hover); }
+
+/* GUEST - Halaman Profil & Visi Misi */
+.profil-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    max-width: 800px;
+    margin: 0 auto;
+}
+.profil-card-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+.profil-card-body h2 { font-size: 2rem; }
+.profil-card-body .posisi { font-size: 1.25rem; color: var(--primary-color); font-weight: 600; margin-top: 0.25rem; }
+.profil-card-body .bio { margin-top: 1.5rem; text-align: left; }
+
+.perangkat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+}
+.perangkat-card {
+    text-align: center;
+    background-color: #fff;
+    padding: 2rem 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.perangkat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px rgba(0, 169, 157, 0.2);
+}
+.perangkat-card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1.5rem auto;
+    padding: 6px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+.perangkat-card h3 { font-size: 1.125rem; font-weight: 700; }
+.perangkat-card p { color: var(--primary-color); font-weight: 600; }
+
+.struktur-img-container { background-color: #fff; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-lg); }
+.struktur-img-container img { border-radius: 0.375rem; }
+.placeholder-box { display: flex; justify-content: center; align-items: center; height: 500px; border: 2px dashed var(--border-color); border-radius: var(--border-radius); }
+
+.visi-misi-container { display: flex; flex-direction: column; gap: 4rem; }
+.visi-box, .misi-box { padding: 2.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md); }
+.visi-box { background-color: #f0fdfa; border-left: 5px solid var(--primary-color); }
+.misi-box { background-color: #fffbeb; border-left: 5px solid var(--secondary-color); }
+.visi-box h2, .misi-box h2 { font-size: 2rem; margin-bottom: 1rem; }
+
+/* GUEST - Halaman Data & UMKM */
+.table-container { background-color: #fff; border-radius: var(--border-radius); box-shadow: var(--shadow-md); overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th, .data-table td { padding: 1rem 1.25rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+.data-table th { background-color: #f8f9fa; font-weight: 600; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover { background-color: #f8f9fa; }
+
+.piramida-container { margin-bottom: 4rem; text-align: center; }
+.piramida-container h2 { font-size: 2rem; margin-bottom: 2rem; font-weight: 700; }
+.piramida-image-wrapper { background-color: #fff; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-lg); max-width: 800px; margin: 0 auto; }
+.piramida-image-wrapper img { border-radius: 0.5rem; }
+
+.demografi-container { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 768px) { .demografi-container { grid-template-columns: repeat(2, 1fr); } }
+.demografi-kategori { background-color: #fff; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md); }
+.demografi-kategori h3 { font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem; }
+.demografi-kategori ul { list-style: none; }
+.demografi-kategori li { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed var(--border-color); }
+.demografi-kategori li:last-child { border-bottom: none; }
+
+.pagination { display: flex; justify-content: center; margin-top: 2rem; list-style: none; }
+.pagination a, .pagination span { padding: 0.5rem 1rem; margin: 0 0.25rem; border: 1px solid var(--border-color); border-radius: 0.375rem; color: var(--primary-color); }
+.pagination .active span { background-color: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+.pagination .disabled span { color: #9ca3af; }
+
+/* =================================
+   8. Footer
+   ================================= */
+.footer {
+    background-color: var(--dark-blue);
+    color: #d1d5db;
+    padding: 4rem 0 2rem 0;
+}
+.footer-logo img { height: 3.5rem; }
+.footer-logo p { color: #9ca3af; margin-top: 1rem; }
+.footer-copyright { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #4b5563; text-align: center; color: #9ca3af; }
+
+/* =================================
+   9. Admin Panel Styles
+   ================================= */
+.admin-body { background-color: #f3f4f6; }
+.admin-layout { display: flex; min-height: 100vh; }
+.sidebar { width: 260px; background-color: var(--dark-blue); color: #d1d5db; padding: 1.5rem; flex-shrink: 0; }
+.sidebar-header { font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 2.5rem; }
+.sidebar-nav a, .sidebar-nav button { display: flex; align-items: center; gap: 0.75rem; width: 100%; text-align: left; padding: 0.85rem 1rem; margin-bottom: 0.5rem; border-radius: var(--border-radius); transition: all 0.2s; }
+.sidebar-nav a:hover, .sidebar-nav button:hover { background-color: #374151; color: #fff; }
+.main-content { flex-grow: 1; padding: 2.5rem; }
+.content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.content-title { font-size: 2rem; }
+.content-box { background-color: #fff; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md); }
+.alert-success { background-color: #d1fae5; border-left: 5px solid var(--secondary-color); color: #065f46; padding: 1rem; border-radius: 0.25rem; margin-bottom: 1.5rem; }
+.form-label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #374151; }
+.form-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: var(--border-radius); transition: border-color 0.3s, box-shadow 0.3s; }
+.form-control:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 169, 157, 0.2); }
+.form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+.login-body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #00A99D 0%, #FF9F43 100%); }
+.login-box { width: 100%; max-width: 400px; padding: 2.5rem; background-color: #fff; border-radius: var(--border-radius); box-shadow: var(--shadow-lg); }
+.login-title { font-size: 1.5rem; text-align: center; margin-bottom: 2rem; }
+.login-body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #00A99D 0%, #FF9F43 100%); }
+.login-box { width: 100%; max-width: 400px; padding: 2.5rem; background-color: #fff; border-radius: var(--border-radius); box-shadow: var(--shadow-lg); }
+.login-title { font-size: 1.5rem; text-align: center; margin-bottom: 2rem; }
+
+/* TAMBAHKAN CLASS BARU INI */
+.login-button-wrapper {
+    margin-top: 1.5rem; /* Memberi jarak dari atas */
+}
+.admin-table .actions { display: flex; gap: 0.5rem; }
+.admin-table .actions .btn { padding: 0.4rem 0.8rem; font-size: 0.875rem; border-radius: 50px; }
+
+
+/* =================================
+   10. Keyframe Animations
+   ================================= */
+@keyframes fadeInAnimation {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomEffect {
+    0% { transform: scale(1.1); }
+    100% { transform: scale(1.25); }
+}
+
+@keyframes slideInDown {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
