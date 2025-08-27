@@ -48,4 +48,22 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
+    
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (hamburgerButton && mobileMenu) {
+        hamburgerButton.addEventListener('click', function() {
+            // Toggle class 'active' pada tombol dan menu
+            hamburgerButton.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+
+            // Mencegah body di-scroll saat menu mobile terbuka
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+    }
 });

@@ -4,7 +4,9 @@
             <img src="{{ asset('images/logo.png') }}" alt="Logo Desa">
             <span class="nav-logo-text">Desa Jaya Mulya</span>
         </a>
-        <ul class="nav-links">
+
+        <!-- Menu untuk Desktop -->
+        <ul class="nav-links desktop-menu">
             <li><a href="{{ route('home') }}">Beranda</a></li>
             <li class="nav-dropdown">
                 <a href="#" class="dropdown-toggle">
@@ -37,6 +39,35 @@
                             Dashboard
                         </a>
                     </li>
+                @endif
+            @endauth
+        </ul>
+
+        <!-- Tombol Hamburger untuk Mobile -->
+        <button class="hamburger-button" id="hamburger-button" aria-label="Buka Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </div>
+
+    <!-- Panel Menu Mobile -->
+    <div class="mobile-menu" id="mobile-menu">
+        <ul>
+            <li><a href="{{ route('home') }}">Beranda</a></li>
+            <li class="mobile-menu-title">Profil Desa</li>
+            <li><a href="{{ route('profil.kepala_desa') }}">- Profil Kepala Desa</a></li>
+            <li><a href="{{ route('profil.perangkat_desa') }}">- Profil Perangkat Desa</a></li>
+            <li><a href="{{ route('profil.struktur') }}">- Struktur Pemerintahan</a></li>
+            <li><a href="{{ route('profil.sejarah') }}">- Sejarah Desa</a></li>
+            <li><a href="{{ route('profil.visimisi') }}">- Visi dan Misi</a></li>
+            <li class="mobile-menu-title">Data Desa</li>
+            <li><a href="{{ route('data.statistik') }}">- Statistik Penduduk</a></li>
+            <li><a href="{{ route('data.demografi') }}">- Demografi Desa</a></li>
+            <li><a href="{{ route('umkm') }}">UMKM</a></li>
+            @auth
+                @if(auth()->user()->is_admin)
+                    <li class="mobile-menu-dashboard"><a href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
                 @endif
             @endauth
         </ul>
