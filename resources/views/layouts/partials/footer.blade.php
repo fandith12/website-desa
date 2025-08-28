@@ -6,6 +6,7 @@
         </div>
         <div class="footer-copyright">
             <p>&copy; {{ date('Y') }} Desa Jaya Mulya. All rights reserved.</p>
+            <p>Develop by Fandith & KKN-2025 Kelompok-17</p>
         </div>
     </div>
 </footer>
